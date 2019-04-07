@@ -3,14 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "10.15.2",
+    "npm": "6.4.1"
+  },
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "kento75 <kento2github@gmail.com> (https://overreact.tk)",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^2.0.0"
   }
 }
