@@ -1,4 +1,5 @@
 module.exports = {
   googleClientID: '',
-  googleClientSecret: ''
+  googleClientSecret: '',
+  mongoURI: 'mongodb+srv://<UserName>:<Password>@<ClusterName>.mongodb.net/test?retryWrites=true'
 };
