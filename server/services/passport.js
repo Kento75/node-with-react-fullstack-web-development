@@ -22,12 +22,16 @@ passport.use(
         .then(existingUser => {
           if (existingUser) {
             // すでに存在する
+            done(null, existingUser);
           } else {
             new User({
-              googleId: profile.id
-            }).save();
+                googleId: profile.id
+              })
+              .save()
+              .then(user => done(null, user));
           }
-        })
+          // 例外握りつぶしはよくない
+        }).catch();
     }
   )
 );
