@@ -13,10 +13,21 @@ passport.use(
       callbackURL: '/auth/google/callback',
     },
     // コールバック
+    // ユーザー情報登録
     (accessToken, refreshToken, profile, done) => {
-      new User({
-        googleId: profile.id
-      }).save();
+      // すでにユーザー情報が存在するか確認
+      User.findOne({
+          googleId: profile.id
+        })
+        .then(existingUser => {
+          if (existingUser) {
+            // すでに存在する
+          } else {
+            new User({
+              googleId: profile.id
+            }).save();
+          }
+        })
     }
   )
 );
