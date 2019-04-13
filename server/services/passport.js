@@ -32,24 +32,22 @@ passport.use(
     },
     // コールバック
     // ユーザー情報登録
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // すでにユーザー情報が存在するか確認
-      User.findOne({
-          googleId: profile.id
-        })
-        .then(existingUser => {
-          if (existingUser) {
-            // すでに存在する
-            done(null, existingUser);
-          } else {
-            new User({
-                googleId: profile.id
-              })
-              .save()
-              .then(user => done(null, user));
-          }
-          // 例外握りつぶしはよくない
-        }).catch();
+      const existingUser = await User.findOne({
+        googleId: profile.id
+      });
+      // すでに存在する
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+
+      // ユーザーデータをDBにinsert
+      const user = await new User({
+        googleId: profile.id
+      }).save();
+      done(null, user);
+
     }
   )
 );
