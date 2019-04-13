@@ -27,6 +27,8 @@ passport.use(
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       callbackURL: '/auth/google/callback',
+      // Proxy設定
+      proxy: true
     },
     // コールバック
     // ユーザー情報登録

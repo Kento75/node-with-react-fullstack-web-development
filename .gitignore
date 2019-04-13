@@ -1,3 +1,4 @@
 node_modules
 memo
-keys.js
+prod.js
+dev.js
