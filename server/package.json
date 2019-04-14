@@ -9,8 +9,9 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon index.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "kento75 <kento2github@gmail.com> (https://overreact.tk)",
@@ -22,5 +23,8 @@
     "nodemon": "^1.18.10",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^2.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
   }
 }
