@@ -1,17 +1,12 @@
-import axios from "axios"
+import axios from "axios";
 import {
   FETCH_USER
-} from "./types"
+} from "./types";
 
-axios.defaults.proxy.host = "http://localhost"
-axios.defaults.proxy.port = "5000"
-
-const fetchUser = () => {
-  return function (dispatch) {
-    axios.get("/api/current_user")
-      .then(res => dispatch({
-        type: FETCH_USER,
-        payload: res
-      }))
-  }
-}
+export const fetchUser = () => async dispatch => {
+  const res = await axios.get("/api/current_user");
+  dispatch({
+    type: FETCH_USER,
+    payload: res
+  });
+};
