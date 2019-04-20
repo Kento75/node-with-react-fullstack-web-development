@@ -2,3 +2,5 @@ node_modules
 memo
 prod.js
 dev.js
+.env.development
+.env.production
