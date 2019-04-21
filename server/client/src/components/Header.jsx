@@ -5,15 +5,14 @@ import Payments from './Payments';
 
 class Header extends React.Component {
   renderContent() {
-    const data = this.props.auth === null ? null : this.props.auth.data.length;
-    switch (data) {
+    switch (this.props.auth) {
       case null:
         return (
           <li>
-            <a href="/account/login">loading</a>
+            <a href="/account/login">Loading</a>
           </li>
         );
-      case 0:
+      case false:
         return (
           <li>
             <a href="/auth/google">Login With Google</a>
@@ -24,8 +23,11 @@ class Header extends React.Component {
           <li key="stripe">
             <Payments />
           </li>,
+          <li key="credits" style={{margin: '0 10px'}}>
+            Credits: {this.props.auth.credits}
+          </li>,
           <li key="logout">
-            <a href="/api/logout">logout</a>
+            <a href="/api/logout">Logout</a>
           </li>,
         ];
     }
@@ -36,11 +38,7 @@ class Header extends React.Component {
       <nav>
         <div className="nav-wrapper">
           <Link
-            to={
-              this.props.auth !== null && this.props.auth.data.length !== 0
-                ? '/surveys'
-                : '/'
-            }
+            to={this.props.auth !== null && this.props.auth ? '/surveys' : '/'}
             className="left brand-logo"
           >
             Emaily
