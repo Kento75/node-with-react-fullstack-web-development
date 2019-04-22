@@ -35,6 +35,7 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 // stripeルート
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 // 本番環境はフロントエンド用ルートを実装
 if (process.env.NODE_ENV === 'production') {
