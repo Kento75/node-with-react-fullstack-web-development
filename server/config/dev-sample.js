@@ -4,5 +4,6 @@ module.exports = {
   mongoURI: 'mongodb+srv://<UserName>:<Password>@<ClusterName>.mongodb.net/test?retryWrites=true',
   cookieKey: 'hogehogenandemoiiyo',
   stripePublishableKey: '',
-  stripeSecretKey: ''
+  stripeSecretKey: '',
+  sendGridKey: ''
 };
