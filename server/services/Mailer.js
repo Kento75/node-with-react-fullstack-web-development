@@ -3,10 +3,7 @@ const helper = sendgrid.mail;
 const keys = require('../config/keys');
 
 class Mailer extends helper.Mail {
-  constructor({
-    subject,
-    recipients
-  }, content) {
+  constructor({subject, recipients}, content) {
     super();
 
     // システムメールアドレス設定
@@ -23,9 +20,7 @@ class Mailer extends helper.Mail {
   }
 
   formatAddresses(recipients) {
-    return recipients.map(({
-      email
-    }) => {
+    return recipients.map(({email}) => {
       return new helper.Email(email);
     });
   }
