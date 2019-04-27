@@ -5,5 +5,6 @@ module.exports = {
   cookieKey: 'hogehogenandemoiiyo',
   stripePublishableKey: '',
   stripeSecretKey: '',
-  sendGridKey: ''
+  sendGridKey: '',
+  redirectDomain: 'http://localhost:3000'
 };
