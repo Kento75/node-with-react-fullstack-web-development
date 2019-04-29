@@ -11,6 +11,19 @@ module.exports = app => {
     res.send('Thanks for voting!');
   });
 
+  app.get('/api/surveys/:id/yes', (req, res) => {
+    res.send('This is Yes branch');
+  });
+
+  app.get('/api/surveys/:id/no', (req, res) => {
+    res.send('This is No branch');
+  });
+
+  app.post('/api/surveys/webhooks', (req, res) => {
+    console.log(req.body);
+    res.send({});
+  });
+
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
     const {
       title,
@@ -24,10 +37,10 @@ module.exports = app => {
       subject,
       body,
       recipients: recipients.split(',').map(email => ({
-        email: email.trim()
+        email: email.trim(),
       })),
       _user: req.user.id,
-      dateSent: Date.now()
+      dateSent: Date.now(),
     });
 
     // Great place to send an email!
