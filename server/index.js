@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -17,7 +16,6 @@ mongoose.connect(keys.mongoURI, {
 });
 
 const app = express();
-app.use(cors())
 
 // いつものせってい
 app.use(bodyParser.json());
