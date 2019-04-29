@@ -24,26 +24,23 @@ module.exports = app => {
       subject,
       body,
       recipients: recipients.split(',').map(email => ({
-        email: email.trim(),
+        email: email.trim()
       })),
       _user: req.user.id,
-      dateSent: Date.now(),
+      dateSent: Date.now()
     });
 
-    // Send an Email
+    // Great place to send an email!
     const mailer = new Mailer(survey, surveyTemplate(survey));
+
     try {
-      // メール送信
       await mailer.send();
-      // 投票情報の更新
       await survey.save();
-      // クレジットを１消費
       req.user.credits -= 1;
-      // ユーザー情報の更新
       const user = await req.user.save();
 
       res.send(user);
-    } catch (e) {
+    } catch (err) {
       res.status(422).send(err);
     }
   });

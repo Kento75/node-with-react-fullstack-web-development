@@ -10,12 +10,8 @@ import reduxThunk from 'redux-thunk';
 import reducers from './reducers';
 
 import App from './components/App';
-// download only axios helper
-import axios from 'axios';
 
-window.axios = axios.create({
-  baseURL: 'http://localhost:5000',
-});
+import * as serviceWorker from './serviceWorker';
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
@@ -25,3 +21,5 @@ ReactDOM.render(
   </Provider>,
   document.querySelector('#root')
 );
+
+serviceWorker.unregister();

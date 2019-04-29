@@ -1,6 +1,6 @@
 const keys = require('../../config/keys');
 
-module.exports = () => {
+module.exports = (survey) => {
   return `
     <html>
       <body>
