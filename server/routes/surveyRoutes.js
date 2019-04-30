@@ -1,6 +1,8 @@
 const _ = require('lodash');
 const Path = require('path-parser');
-const {URL} = require('url');
+const {
+  URL
+} = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
@@ -23,31 +25,60 @@ module.exports = app => {
   });
 
   app.post('/api/surveys/webhooks', (req, res) => {
-    const events = _.map(req.body, ({email, url}) => {
-      const pathname = new URL(url).pathname;
-      const p = new Path('/api/surveys/:surveyId/:choice');
-      const match = p.test(pathname);
-      // パスが等しいことを確認
-      if (match) {
-        // メールアドレス、投票ID、Yes or No の判定を取得
-        return {
-          email,
-          surveyId: match.surveyId,
-          choice: match.choice,
-        };
-      }
-    });
-    // 連続クリック対策
-    // 一意な情報のみ取得する
-    const compactEvents = _.compact(events);
-    const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId');
+    const p = new Path('/api/surveys/:surveyId/:choice');
 
-    console.log(uniqueEvents);
+    const events = _.chain(req.body)
+      .map(({
+        email,
+        url
+      }) => {
+        const match = p.test(new URL(url).pathname);
+        // パスが等しいことを確認
+        if (match) {
+          // メールアドレス、投票ID、Yes or No の判定を取得
+          return {
+            email,
+            surveyId: match.surveyId,
+            choice: match.choice,
+          };
+        }
+      })
+      .compact() // 連続クリック対策 一意な情報のみ取得するd
+      .uniqBy('email', 'surveyId')
+      .each(({
+        surveyId,
+        email,
+        choice
+      }) => {
+        Survey.updateOne({
+          _id: surveyId,
+          recipients: {
+            $elemMatch: {
+              email: email,
+              responded: false
+            }
+          }
+        }, {
+          $inc: {
+            [choice]: 1
+          },
+          $set: {
+            'recipients.$.responded': true
+          }
+        }).exec();
+      })
+      .value();
+
     res.send({});
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
-    const {title, subject, body, recipients} = req.body;
+    const {
+      title,
+      subject,
+      body,
+      recipients
+    } = req.body;
 
     const survey = new Survey({
       title,
