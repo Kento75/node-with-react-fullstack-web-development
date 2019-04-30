@@ -12,18 +12,33 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
+  // 一覧取得
+  app.get('/api/surveys', requireLogin, async (req, res) => {
+    const surveys = await Survey.find({
+      _user: req.user.id
+    }).select({
+      recipients: false
+    });
+    res.send(surveys);
+  });
+
+  // Thanksルート
+  // ※メールクリック時
   app.get('/api/surveys/thanks', (req, res) => {
     res.send('Thanks for voting!');
   });
 
+  // Yesクリック時
   app.get('/api/surveys/:id/yes', (req, res) => {
     res.send('This is Yes branch');
   });
 
+  // Noクリック時
   app.get('/api/surveys/:id/no', (req, res) => {
     res.send('This is No branch');
   });
 
+  // Sendgridのwebhook受付時
   app.post('/api/surveys/webhooks', (req, res) => {
     const p = new Path('/api/surveys/:surveyId/:choice');
 
